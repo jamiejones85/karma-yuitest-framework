@@ -12,6 +12,19 @@ function getResults(data) {
   return results;
 };
 
+function getTestFiles(data) {
+  var results = [];
+  Object.getOwnPropertyNames(data).forEach(
+    function (val) {
+      if (val.indexOf('-tests.js') > -1) {
+        results.push(val);
+      }
+    }
+  );
+  return results;
+};
+
+
 /**
  * YUI Test starter function factory.
  *
@@ -26,9 +39,9 @@ function createStartFn (karma) {
   return function () {
     var clientConfig = karma.config || {}
     var yuitestConfig = clientConfig.yuitest || {}
+    var testFiles = getTestFiles(karma.files);
 
-    YUI().use('test', function (Y) {
-
+    YUI({useBrowserConsole: false}).use(['test', 'get'], function (Y) {
 
       function handlePassTestResult(data) {
         karma.result(
@@ -70,9 +83,12 @@ function createStartFn (karma) {
         karma.complete();
       };
 
-      var TestRunner = Y.Test.Runner;
-      TestRunner.subscribe(TestRunner.COMPLETE_EVENT, handleComplete)
-      TestRunner.run();
+      Y.Get.js(testFiles, function (err) {
+        var TestRunner = Y.Test.Runner;
+        TestRunner.subscribe(TestRunner.COMPLETE_EVENT, handleComplete)
+        TestRunner.run();
+      });
+
     });
   }
 

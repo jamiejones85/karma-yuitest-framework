@@ -1,6 +1,6 @@
 {
   "name": "karma-yuitest-framework",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A YUITest runner for the karma framework, see the tests for examples of how the tests should look. Note: I don't recommend writing new YUITest tests",
   "main": "lib/index.js",
   "scripts": {

@@ -3,7 +3,7 @@ module.exports = function (config) {
     frameworks: ['yuitest'],
 
     files: [
-      'test/*-tests.js'
+      { pattern: 'test/*-tests.js', included: false }
     ],
 
     browsers: process.env.TRAVIS ? ['Firefox'] : ['Chrome'],
